@@ -40,8 +40,8 @@ To package for Mac OS (requires pyinvoke):
 ## TODO
 
 - feature: make it crossplatform (mainly fix notifications: use jwindow and/or use terminal-notifier)
-- feature: ! and !!! priorities - e.g by pressing hotkey several times
-- feature: enbale/disable taskbar icon, sounds, notificaitons
+- feature: ! and !!! priority suffixes - e.g by pressing hotkey several times
+- feature: enable/disable taskbar icon, sounds, notificaitons
 - feature: only one instance allowed
 - feature: drag-n-drop file
 - feature: recent files
