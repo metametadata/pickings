@@ -4,6 +4,8 @@ A Clojure app which on pressing a global hotkey appends text from clipboard into
 I mainly use it to save quotes while reading ebooks.
 Works only in Mac OS at the moment.
 
+![Screenshot](http://i.imgur.com/2TB9j6W.png)
+
 ## Usage
 
     java -jar <app jar>
