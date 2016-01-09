@@ -8,7 +8,7 @@ Works only in Mac OS at the moment.
 
     java -jar <app jar>
     
-App stores it config at `~/.pickings-config.edn`.
+App stores its config at `~/.pickings-config.edn`.
 
 ## Development
 
@@ -37,9 +37,9 @@ To package for Mac OS (requires pyinvoke):
 
 ## TODO
 
-- feature: make it crossplatform (mainly fix notifications)
+- feature: make it crossplatform (mainly fix notifications: use jwindow and/or use terminal-notifier)
 - feature: ! and !!! priorities - e.g by pressing hotkey several times
-- feature: os-independent notifications - e.g. use jwindow or better notifications - use terminal-notifier
+- feature: enbale/disable taskbar icon, sounds, notificaitons
 - feature: only one instance allowed
 - feature: drag-n-drop file
 - feature: recent files
