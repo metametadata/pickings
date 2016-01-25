@@ -8,6 +8,8 @@
 
   :main ^:skip-aot pickings.main
 
+  :clean-targets ^{:protect false} ["target" "out"]
+
   :profiles {:dev     {:source-paths ["env/dev/clj"]
                        :repl-options {:init-ns user}
                        :dependencies [[org.clojure/tools.namespace "0.2.10"]]}
