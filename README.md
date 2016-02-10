@@ -2,7 +2,6 @@
 
 A Clojure app which on pressing a global hotkey appends text from clipboard into the specified file.
 I mainly use it to save quotes while reading ebooks.
-Works only in Mac OS at the moment.
 
 ![Screenshot](http://i.imgur.com/2TB9j6W.png)
 
@@ -39,9 +38,8 @@ To package for Mac OS (requires pyinvoke):
 
 ## TODO
 
-- feature: make it crossplatform (mainly fix notifications: use jwindow and/or use terminal-notifier)
 - feature: ! and !!! priority suffixes - e.g by pressing hotkey several times
-- feature: enable/disable taskbar icon, sounds, notificaitons
+- feature: enable/disable taskbar icon, sounds
 - feature: only one instance allowed
 - feature: drag-n-drop file
 - feature: recent files

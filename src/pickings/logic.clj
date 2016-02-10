@@ -1,6 +1,7 @@
 (ns pickings.logic
   (:require [clojure.core.match :refer [match]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [dynne.sampled-sound :as d]))
 
 ;;; Model
 (defn -file-path
@@ -33,6 +34,10 @@
    :delimeter "\n--\n\n"})
 
 ;;; Control
+(defn -beep
+  []
+  (d/play (d/sinusoid 0.025 440)))
+
 (defn control
   [model signal dispatch]
   (match signal
@@ -56,12 +61,7 @@
          [:on-append text]
          (let [{:keys [file delimeter]} model]
            (spit file (str (clojure.string/trim text) delimeter) :append true)
-           (.exec (Runtime/getRuntime)
-                  (into-array ["osascript"
-                               "-e"
-                               (str "display notification " "\"Clipboard appended\""
-                                    " with title " (str \" file \")
-                                    " sound name \"Tink\"")])))))
+           (-beep))))
 
 ;;; Reconcile
 (defn reconcile

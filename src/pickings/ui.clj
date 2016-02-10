@@ -80,7 +80,7 @@
                             (.setToolTip tray-icon (str "Pickings\n" (:file model)))
                             (sc/value! file-label (:file model))
                             ;(sc/value! delimeter-label (pr-str (:delimeter model)))
-                            (sc/value! hotkey-label "meta shift V")
+                            (sc/value! hotkey-label "OS X: command+shift+V; Windows: control+shift+V")
                             (sc/pack! app-frame))
         choose-action (sc/action :handler (fn [_e]
                                             (if-let [path (-choose-file app-frame)]

@@ -18,11 +18,17 @@
 (defonce -hotkey-provider (atom nil))
 (defonce -hotkey-callback (atom nil))
 
+(defn -determine-hotkey
+  []
+  (if (.contains (System/getProperty "os.name") "Windows")
+    "control shift V"
+    "meta shift V"))
+
 (defn -register-hotkey-provider
   []
   (when (nil? @-hotkey-provider)
     (reset! -hotkey-provider (keymaster.core/make-provider))
-    (keymaster.core/register @-hotkey-provider "meta shift V" #(@-hotkey-callback %))))
+    (keymaster.core/register @-hotkey-provider (-determine-hotkey) #(@-hotkey-callback %))))
 
 (defrecord Keylistener [callback app]
   component/Lifecycle
