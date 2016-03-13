@@ -5,6 +5,10 @@ I mainly use it to save quotes while reading ebooks.
 
 ![Screenshot](http://i.imgur.com/2TB9j6W.png)
 
+## Download
+
+See [Releases](https://github.com/metametadata/pickings/releases).
+
 ## Usage
 
     java -jar <app jar>
