@@ -1,4 +1,4 @@
-(defproject pickings "0.1.0-SNAPSHOT"
+(defproject pickings "0.2.0-SNAPSHOT"
   :description "Press global hotkey to append clipboard text into file."
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [seesaw "1.4.5"]
