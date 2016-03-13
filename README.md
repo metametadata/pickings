@@ -37,7 +37,6 @@ To package for Mac OS (requires pyinvoke):
 - Seesaw for UI
 
 ## TODO
-- enhancement: binary is too big
 - feature: ! and !!! priority suffixes - e.g by pressing hotkey several times
 - feature: enable/disable taskbar icon, sounds
 - feature: only one instance allowed
