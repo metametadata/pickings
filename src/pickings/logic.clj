@@ -1,7 +1,8 @@
 (ns pickings.logic
   (:require [clojure.core.match :refer [match]]
-            [clojure.java.io :as io]
-            [dynne.sampled-sound :as d]))
+            [clojure.java.io :as io])
+  (:import (java.io BufferedInputStream)
+           (javazoom.jl.player Player)))
 
 ;;; Model
 (defn -file-path
@@ -35,8 +36,12 @@
 
 ;;; Control
 (defn -beep
+  "Inspired by code from https://github.com/technomancy/lein-play."
   []
-  (d/play (d/sinusoid 0.025 440)))
+  (-> (io/input-stream (io/resource "beep.mp3"))
+      BufferedInputStream.
+      Player.
+      .play))
 
 (defn control
   [model signal dispatch]

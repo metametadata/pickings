@@ -5,7 +5,7 @@
                  [com.stuartsierra/component "0.3.1"]
                  [org.clojars.houshuang/keymaster-clj "0.1.0"]
                  [org.clojure/core.match "0.3.0-alpha4"]
-                 [org.craigandera/dynne "0.4.1"]]
+                 [org.clojars.technomancy/jlayer "1.0"]]
 
   :main ^:skip-aot pickings.main
 
