@@ -36,7 +36,7 @@ To package for Mac OS (experimental, requires pyinvoke):
     
 ## Architecture
 
-- Model-View-Signal-Action architecture similar to the one from [cljs-elmish-todomvc](https://github.com/metametadata/cljs-elmish-todomvc)
+- Model-View-Signal-Action architecture similar to the one from [reagent-mvsa](https://github.com/metametadata/reagent-mvsa)
 - [Reloaded workflow] (http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded) for easier running from REPL
 - Seesaw for UI
 
