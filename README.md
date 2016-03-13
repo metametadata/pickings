@@ -30,7 +30,7 @@ To build an executable:
 
     lein uberjar
 
-To package for Mac OS (requires pyinvoke):
+To package for Mac OS (experimental, requires pyinvoke):
 
     inv mac
     
