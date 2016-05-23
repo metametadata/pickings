@@ -77,7 +77,7 @@
         ;delimeter-label (sc/label)
         hotkey-label (sc/label)
         update-app-frame! (fn [model]
-                            (.setToolTip tray-icon (str "Pickings\n" (:file model)))
+                            (.setToolTip tray-icon (str "Pickings1\n" (:file model)))
                             (sc/value! file-label (:file model))
                             ;(sc/value! delimeter-label (pr-str (:delimeter model)))
                             (sc/value! hotkey-label "OS X: command+shift+V; Windows: control+shift+V")

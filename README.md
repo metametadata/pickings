@@ -36,9 +36,9 @@ To package for Mac OS (experimental, requires pyinvoke):
     
 ## Architecture
 
-- Model-View-Signal-Action architecture similar to the one from [reagent-mvsa](https://github.com/metametadata/reagent-mvsa)
+- Unidirectional data flow using [Carry](https://github.com/metametadata/carry/)
+- [Seesaw](https://github.com/daveray/seesaw) for UI
 - [Reloaded workflow] (http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded) for easier running from REPL
-- Seesaw for UI
 
 ## TODO
 - feature: ! and !!! priority suffixes - e.g by pressing hotkey several times

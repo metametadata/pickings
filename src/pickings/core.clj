@@ -1,22 +1,21 @@
 (ns pickings.core
   (:require [pickings.keylistener :as keylistener]
             [pickings.ui :as ui]
-            [pickings.logic :as logic]
-            [pickings.mvsa :as mvsa]
+            [pickings.spec :as spec]
+            [carry.core :as carry]
             [com.stuartsierra.component :as component]
             [seesaw.core :as sc]))
 
-(def -app-spec {:init      logic/init
-                :view      ui/view
-                :control   logic/control
-                :reconcile logic/reconcile})
-
-; Shows/hides app window, it's kinda an adapter from MVSA to Component pattern
+; Shows/hides app window, it's kinda an adapter from Carry to Component pattern
 (defrecord App []
   component/Lifecycle
   (start [this]
-    (let [new-this (merge this
-                          (mvsa/connect-seesaw (-> -app-spec mvsa/wrap-log) []))]
+    (let [app (carry/app spec/spec)
+          view (ui/view (:model app) (:dispatch-signal app))
+          new-this (-> this
+                       (merge app)
+                       (assoc :view view))]
+      ((:dispatch-signal app) :on-start)
       (sc/show! (:view new-this))
       new-this))
 

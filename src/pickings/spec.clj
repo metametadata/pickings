@@ -1,10 +1,10 @@
-(ns pickings.logic
+(ns pickings.spec
   (:require [clojure.core.match :refer [match]]
             [clojure.java.io :as io])
   (:import (java.io BufferedInputStream)
            (javazoom.jl.player Player)))
 
-;;; Model
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn -file-path
   "App stores files in user's home folder."
   [filename]
@@ -28,13 +28,11 @@
   (spit -config-path (pr-str config))
   config)
 
-;;; Init
-(defn init
-  []
+(def -initial-model
   {:file      (-file-path "pickings.txt")
    :delimeter "\n--\n\n"})
 
-;;; Control
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn -beep
   "Inspired by code from https://github.com/technomancy/lein-play."
   []
@@ -43,37 +41,46 @@
       Player.
       .play))
 
-(defn control
-  [model signal dispatch]
+(defn -control
+  [model signal _dispatch-signal dispatch-action]
+  (println "signal =" (pr-str signal))
   (match signal
-         :on-connect
+         :on-start
          (when-let [loaded-config (-load-config)]
-           (dispatch [:reset loaded-config]))
+           (dispatch-action [:reset loaded-config]))
 
          [:on-set-file file]
-         (-> (dispatch [:set-file file])
-             -save-config!)
+         (do
+           (dispatch-action [:set-file file])
+           (-save-config! @model))
 
          :on-reveal-file
-         (->> (.getAbsoluteFile (clojure.java.io/file (:file model)))
+         (->> (.getAbsoluteFile (clojure.java.io/file (:file @model)))
               .getParentFile
               (.open (java.awt.Desktop/getDesktop)))
 
          :on-open-file
-         (->> (.getAbsoluteFile (clojure.java.io/file (:file model)))
+         (->> (.getAbsoluteFile (clojure.java.io/file (:file @model)))
               (.open (java.awt.Desktop/getDesktop)))
 
          [:on-append text]
-         (let [{:keys [file delimeter]} model]
+         (let [{:keys [file delimeter]} @model]
            (spit file (str (clojure.string/trim text) delimeter) :append true)
            (-beep))))
 
-;;; Reconcile
-(defn reconcile
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defn -reconcile
   [model action]
+  (println "  action =" (pr-str action))
   (match action
          [:reset new-model]
          new-model
 
          [:set-file file]
          (assoc model :file file)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(def spec
+  {:initial-model -initial-model
+   :control       -control
+   :reconcile     -reconcile})
