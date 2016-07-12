@@ -26,7 +26,7 @@ def mac():
     packager = os.path.join(run("/usr/libexec/java_home").stdout.rstrip(), "bin/javapackager")
     run('{0} -deploy -native image'
         ' -outdir out -outfile pickings.app'
-        ' -srcfiles target/pickings-0.1.0-SNAPSHOT-standalone.jar -appclass pickings.main'
+        ' -srcfiles target/pickings-0.4.0-standalone.jar -appclass pickings.main'
         ' -name "Pickings" -title "Pickings"'
         ' -Bruntime= -Bicon=resources/icon.icns'.format(packager),
         echo=True)
