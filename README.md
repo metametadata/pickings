@@ -3,7 +3,7 @@
 A Clojure app which on pressing a global hotkey appends text from clipboard into the specified file.
 I mainly use it to save quotes while reading ebooks.
 
-![Screenshot](http://i.imgur.com/2aGvNmA.png)
+![Screenshot](http://i.imgur.com/AZTQSiQ.png)
 
 ## Download
 
