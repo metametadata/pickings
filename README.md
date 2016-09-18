@@ -49,3 +49,8 @@ To package for Mac OS (experimental, requires pyinvoke):
 - feature: better reveal (with file selected)
 - feature: be able to edit the rest of config from app: hotkey, delimeter
 - package for different OSes
+
+## License
+Copyright © 2016 Yuri Govorushchenko.
+
+Released under an MIT license.
