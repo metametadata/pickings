@@ -2,7 +2,12 @@
   (:require [clojure.core.match :refer [match]]
             [clojure.java.io :as io])
   (:import (java.io BufferedInputStream)
-           (javazoom.jl.player Player)))
+           (javazoom.jl.player Player)
+           (com.notification NotificationFactory NotificationFactory$Location)
+           (com.theme ThemePackagePresets)
+           (com.notification.manager SimpleManager)
+           (com.utils Time)
+           (javax.swing SwingUtilities)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn -file-path
@@ -29,10 +34,22 @@
   config)
 
 (def -initial-model
-  {:file      (-file-path "pickings.txt")
-   :delimeter "\n--\n\n"})
+  {:file           (-file-path "pickings.txt")
+   :delimeter      "\n--\n\n"
+   :sound?         true
+   :notifications? true})
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defn -notify
+  [text]
+  (let [factory (NotificationFactory. (ThemePackagePresets/cleanLight))
+        manager (SimpleManager. NotificationFactory$Location/NORTHEAST)
+        notification (doto
+                       (.buildTextNotification factory "Saved" text)
+                       (.setCloseOnClick true))]
+    (SwingUtilities/invokeLater
+      #(.addNotification manager notification (Time/seconds 1.5)))))
+
 (defn -beep
   "Inspired by code from https://github.com/technomancy/lein-play."
   []
@@ -63,10 +80,24 @@
          (->> (.getAbsoluteFile (clojure.java.io/file (:file @model)))
               (.open (java.awt.Desktop/getDesktop)))
 
+         :on-toggle-sound
+         (do
+           (dispatch-action :toggle-sound)
+           (-save-config! @model))
+
+         :on-toggle-notifications
+         (do
+           (dispatch-action :toggle-notifications)
+           (-save-config! @model))
+
          [:on-append text]
          (let [{:keys [file delimeter]} @model]
            (spit file (str (clojure.string/trim text) delimeter) :append true)
-           (-beep))))
+           (when (:notifications? @model)
+             (-notify text))
+
+           (when (:sound? @model)
+             (future-call #(-beep))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defn -reconcile
@@ -77,7 +108,13 @@
          new-model
 
          [:set-file file]
-         (assoc model :file file)))
+         (assoc model :file file)
+
+         :toggle-sound
+         (update model :sound? not)
+
+         :toggle-notifications
+         (update model :notifications? not)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def spec

@@ -75,11 +75,17 @@
         file-label (sc/label)
         ;delimeter-label (sc/label)
         hotkey-label (sc/label)
+        sound-cb (sc/checkbox :text "Enable sound"
+                              :listen [:action (fn [_e] (dispatch :on-toggle-sound))])
+        notifications-cb (sc/checkbox :text "Enable desktop notifications"
+                                      :listen [:action (fn [_e] (dispatch :on-toggle-notifications))])
         update-app-frame! (fn [model]
                             (.setToolTip tray-icon (str "Pickings\n" (:file model)))
                             (sc/value! file-label (:file model))
                             ;(sc/value! delimeter-label (pr-str (:delimeter model)))
-                            (sc/value! hotkey-label "OS X: command+shift+V; Windows: control+shift+V")
+                            (sc/value! sound-cb (:sound? model))
+                            (sc/value! notifications-cb (:notifications? model))
+                            (sc/value! hotkey-label "Hotkey: ⌘+Shift+V (Mac); Ctrl+Shift+V (Windows)")
                             (sc/pack! app-frame))
         choose-action (sc/action :handler (fn [_e]
                                             (if-let [path (-choose-file app-frame)]
@@ -87,20 +93,24 @@
                                  :name "Change...")
         reveal-action (sc/action :handler
                                  (fn [_e] (dispatch :on-reveal-file))
-                                 :name "Reveal")
+                                 :name "Reveal"
+                                 :enabled? true
+                                 :selected? true)
         open-action (sc/action :handler
                                (fn [_e] (dispatch :on-open-file))
                                :name "Open")
         header #(sc/label :text % :font {:style :bold :size 15})
         content-frame (sc/vertical-panel
-                        :items [(sc/flow-panel :background "aliceblue"
-                                               :items [(header "Current file:")
+                        :items [(sc/flow-panel :items [(header "Current file:")
                                                        file-label
                                                        choose-action
                                                        reveal-action
                                                        open-action])
+                                (sc/flow-panel :items [sound-cb
+                                                       notifications-cb])
                                 ;(sc/flow-panel :items [(header "Delimeter:") delimeter-label])
-                                (sc/flow-panel :items [(header "Hotkey:") hotkey-label])])]
+                                (sc/flow-panel :background "lightgreen"
+                                               :items [hotkey-label])])]
     (sc/config! app-frame :content content-frame)
     (-listen-to-atom-changes! app-frame model-atom update-app-frame!)
     app-frame))

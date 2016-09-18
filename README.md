@@ -42,7 +42,7 @@ To package for Mac OS (experimental, requires pyinvoke):
 
 ## TODO
 - feature: ! and !!! priority suffixes - e.g by pressing hotkey several times
-- feature: enable/disable taskbar icon, sounds
+- feature: toggle taskbar icon
 - feature: only one instance allowed
 - feature: drag-n-drop file
 - feature: recent files
