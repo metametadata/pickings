@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0
+
+- Updated Carry dependency.
+
 ## 0.6.0
 
 - Desktop notifications.

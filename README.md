@@ -41,13 +41,15 @@ To package for Mac OS (experimental, requires pyinvoke):
 - [Reloaded workflow] (http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded) for easier running from REPL
 
 ## TODO
+- feature: be able to edit hotkey, e.g. set it to meta+c+v combo
 - feature: ! and !!! priority suffixes - e.g by pressing hotkey several times
 - feature: toggle taskbar icon
+- feature: better reveal (with file selected)
 - feature: only one instance allowed
 - feature: drag-n-drop file
 - feature: recent files
-- feature: better reveal (with file selected)
-- feature: be able to edit the rest of config from app: hotkey, delimeter
+- feature: be able to edit delimeter
+- feature: save file as edn/json/etc to make future parsing easier
 - package for different OSes
 
 ## License

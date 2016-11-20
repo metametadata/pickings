@@ -1,7 +1,7 @@
 (ns pickings.core
   (:require [pickings.keylistener :as keylistener]
             [pickings.ui :as ui]
-            [pickings.spec :as spec]
+            [pickings.blueprint :as blueprint]
             [carry.core :as carry]
             [com.stuartsierra.component :as component]
             [seesaw.core :as sc]))
@@ -10,7 +10,7 @@
 (defrecord App []
   component/Lifecycle
   (start [this]
-    (let [app (carry/app spec/spec)
+    (let [app (carry/app blueprint/blueprint)
           view (ui/view (:model app) (:dispatch-signal app))
           new-this (-> this
                        (merge app)

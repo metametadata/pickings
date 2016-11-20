@@ -1,8 +1,8 @@
-(defproject pickings "0.6.0"
+(defproject pickings "0.7.0"
   :description "Press global hotkey to append clipboard text into file."
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [com.stuartsierra/component "0.3.1"]
-                 [carry "0.4.0"]
+                 [carry "0.7.0"]
                  [org.clojure/core.match "0.3.0-alpha4"]
                  [seesaw "1.4.5"]
                  [org.clojars.houshuang/keymaster-clj "0.1.0"]

@@ -1,4 +1,4 @@
-(ns pickings.spec
+(ns pickings.blueprint
   (:require [clojure.core.match :refer [match]]
             [clojure.java.io :as io])
   (:import (java.io BufferedInputStream)
@@ -58,7 +58,7 @@
       Player.
       .play))
 
-(defn -control
+(defn -on-signal
   [model signal _dispatch-signal dispatch-action]
   (println "signal =" (pr-str signal))
   (match signal
@@ -100,7 +100,7 @@
              (future-call #(-beep))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defn -reconcile
+(defn -on-action
   [model action]
   (println "  action =" (pr-str action))
   (match action
@@ -117,7 +117,7 @@
          (update model :notifications? not)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(def spec
+(def blueprint
   {:initial-model -initial-model
-   :control       -control
-   :reconcile     -reconcile})
+   :on-signal     -on-signal
+   :on-action     -on-action})
