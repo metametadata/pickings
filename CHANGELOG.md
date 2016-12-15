@@ -3,6 +3,7 @@
 ## 0.7.0
 
 - Updated Carry dependency.
+- Migrated from Component to Integrant.
 
 ## 0.6.0
 

@@ -1,9 +1,9 @@
 (ns pickings.main
   (:gen-class)
   (:require [pickings.core :as core]
-            [com.stuartsierra.component :as component]))
+            [integrant.core :as ig]))
 
 (defn -main
   [& args]
   (println "Hi!")
-  (component/start (core/new-system)))
+  (ig/init (core/new-config)))

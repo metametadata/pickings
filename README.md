@@ -36,9 +36,10 @@ To package for Mac OS (experimental, requires pyinvoke):
     
 ## Architecture
 
-- Unidirectional data flow using [Carry](https://github.com/metametadata/carry/)
-- [Seesaw](https://github.com/daveray/seesaw) for UI
-- [Reloaded workflow] (http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded) for easier running from REPL
+- Unidirectional data flow using [Carry](https://github.com/metametadata/carry/).
+- [Seesaw](https://github.com/daveray/seesaw) for UI.
+- [Reloaded workflow] (http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded)
+using [Integrant](https://github.com/weavejester/integrant) for easier running from REPL.
 
 ## TODO
 - feature: be able to edit hotkey, e.g. set it to meta+c+v combo

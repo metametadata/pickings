@@ -1,32 +1,29 @@
 (ns pickings.core
-  (:require [pickings.keylistener :as keylistener]
-            [pickings.ui :as ui]
-            [pickings.blueprint :as blueprint]
-            [carry.core :as carry]
-            [com.stuartsierra.component :as component]
-            [seesaw.core :as sc]))
+  (:require
+    [pickings.ui :as ui]
+    [pickings.blueprint :as blueprint]
+    [carry.core :as carry]
+    [integrant.core :as ig]
+    [seesaw.core :as sc]))
 
-; Shows/hides app window, it's kinda an adapter from Carry to Component pattern
-(defrecord App []
-  component/Lifecycle
-  (start [this]
-    (let [app (carry/app blueprint/blueprint)
-          view (ui/view (:model app) (:dispatch-signal app))
-          new-this (-> this
-                       (merge app)
-                       (assoc :view view))]
-      ((:dispatch-signal app) :on-start)
-      (sc/show! (:view new-this))
-      new-this))
+(defmethod ig/init-key :app
+  [_ _]
+  (let [app (carry/app blueprint/blueprint)
+        view (ui/view (:model app) (:dispatch-signal app))]
+    ((:dispatch-signal app) :on-start)
+    (sc/show! view)
+    (assoc app :view view)))
 
-  (stop [this]
-    (sc/dispose! (:view this))
-    this))
+(defmethod ig/halt-key! :app
+  [_ app]
+  (sc/dispose! (:view app))
+  ((:dispatch-signal app) :on-stop))
 
-(defn new-system
-  []
-  (component/system-map
-    :app (->App)
-    :keylistener (component/using (keylistener/new-keylistener (fn [this text]
-                                                                 ((:dispatch-signal (:app this)) [:on-append text])))
-                                  [:app])))
+(defn new-config
+  ([] (new-config nil))
+  ([prev-system]
+   {:app         nil
+    :keylistener {:hotkey-callback-atom (-> prev-system :keylistener :hotkey-callback-atom)
+                  :app                  (ig/ref :app)
+                  :callback             (fn [app text]
+                                          ((:dispatch-signal app) [:on-append text]))}}))

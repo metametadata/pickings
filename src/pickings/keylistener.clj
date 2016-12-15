@@ -1,7 +1,6 @@
 (ns pickings.keylistener
-  (:require [com.stuartsierra.component :as component]
+  (:require [integrant.core :as ig]
             [keymaster.core])
-
   (:import java.awt.Toolkit)
   (:import (java.awt.datatransfer DataFlavor)))
 
@@ -13,36 +12,26 @@
     (if text?
       (.getData clipboard DataFlavor/stringFlavor))))
 
-; TODO: it doesn't work with namespace reloading!
-; using such strange pattern because jkeymaster hangs on stopping provider in REPL
-(defonce -hotkey-provider (atom nil))
-(defonce -hotkey-callback (atom nil))
-
 (defn -determine-hotkey
   []
   (if (.contains (System/getProperty "os.name") "Windows")
     "control shift V"
     "meta shift V"))
 
-(defn -register-hotkey-provider
-  []
-  (when (nil? @-hotkey-provider)
-    (reset! -hotkey-provider (keymaster.core/make-provider))
-    (keymaster.core/register @-hotkey-provider (-determine-hotkey) #(@-hotkey-callback %))))
+(defmethod ig/init-key :keylistener
+  [_ {:keys [hotkey-callback-atom app callback]}]
+  ; using such strange pattern (registering provider once) because jkeymaster hangs on stopping provider in REPL
+  (let [hotkey-callback-atom (or hotkey-callback-atom (atom nil))]
+    (when (nil? @hotkey-callback-atom)
+      (keymaster.core/register (keymaster.core/make-provider)
+                               (-determine-hotkey)
+                               #(@hotkey-callback-atom %)))
 
-(defrecord Keylistener [callback app]
-  component/Lifecycle
+    (reset! hotkey-callback-atom (fn [_] (callback app (-get-clipboard-text))))
 
-  (start [this]
-    (reset! -hotkey-callback (fn [_] (callback this (-get-clipboard-text))))
-    (-register-hotkey-provider)
-    this)
+    ; return atom for future reuse
+    {:hotkey-callback-atom hotkey-callback-atom}))
 
-  (stop [this]
-    (reset! -hotkey-callback (constantly nil))
-    this))
-
-(defn new-keylistener
-  "Callback will receive |this| and clipboard text when global hotkey is pressed."
-  [callback]
-  (map->Keylistener {:callback callback}))
+(defmethod ig/halt-key! :keylistener
+  [_ {:keys [hotkey-callback-atom]}]
+  (reset! hotkey-callback-atom (constantly nil)))

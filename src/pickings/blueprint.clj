@@ -66,6 +66,8 @@
          (when-let [loaded-config (-load-config)]
            (dispatch-action [:reset loaded-config]))
 
+         :on-stop nil
+
          [:on-set-file file]
          (do
            (dispatch-action [:set-file file])
